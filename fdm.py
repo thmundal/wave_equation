@@ -8,6 +8,7 @@ Created on Wed Oct 24 15:32:41 2018
 import matplotlib.pyplot as plt;
 import numpy as np;
 import matplotlib.animation as animation;
+from mpl_toolkits.mplot3d import Axes3D
 
 def islambda(f):
     LAMBDA = lambda:0
@@ -51,19 +52,19 @@ def fdm(A = 0, B = 0, C = 0, D = 0, y0 = 0, dydx = 1, h = 0.5, max_x = 5, drawpl
 #fdm(1, 0, 3, 0, 0, 1, 0.005, 5, True)
 
 def I(x):
-    return x-5;
+    return 0;
 
 def g(t):
-    return 0;
+    return -10*np.sin(t);
 
 def h(t):
-    return 0;
+    return 20*np.sin(t);
 
 def wave():
-    c = 0.5;
+    c = 0.7;
     l = 10;
-    dx = 0.5;
-    dt = 0.5;
+    dx = 0.05;
+    dt = 0.05;
     C = c*dt/dx;
     
     max_y = 100;
@@ -78,10 +79,6 @@ def wave():
     t_space = np.linspace(0, max_t, t_res);
     
     u = [[0 for t in range(len(x_space))] for x in range(len(t_space))]
-    
-    # u(x(i), t(n))
-    # I(x) = startcondition at x
-    #compute u(0, i) = I(x) for i = 0..N
     
     #Set initial conditions
     for i in range(0, len(x_space)):
@@ -103,9 +100,6 @@ def wave():
                 u[n+1][i] = C**2*(u[n][i+1] - 2*u[n][i] + u[n][i-1]) + 2*u[n][i] - u[n-1][i]
            
             
-    # Set up animating wave plot
-    fig, ax = plt.subplots()
-    line, = ax.plot(u[0])
     
     def init():
         line.set_ydata(u[0])
@@ -115,19 +109,28 @@ def wave():
         line.set_ydata(u[i])
         return line
     
+    # Animated output
+    fig, ax = plt.subplots()
+    line, = ax.plot(u[0])
     plt.ylim(-max_y, max_y)
     ani = animation.FuncAnimation(fig, animate, init_func=init, interval=frameinterval, blit=False, save_count=len(t_space))
-    ani.save("wave.avi")
+    #ani.save("wave.avi")
     ani.save() # This throws an error because no filename, but the animation will not play without this
-    
-    #plt.plot(graph)
-    plt.show()
-    
+#    
+#    #2D static output
 #    for i in range(len(u)):
 #        plt.plot(u[i])
 #        
 #    plt.show()
     
+    #3D static output
+#    x = range(len(x_space));
+#    y = range(len(t_space));
+#    X, Y = np.meshgrid(x, y);
+#    fig = plt.figure();
+#    ax = fig.gca(projection='3d')
+#    data = np.array(u);
+#    ax.plot_surface(X, Y, data);
 
 
 wave()
