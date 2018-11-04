@@ -114,16 +114,16 @@ def wave():
     line, = ax.plot(u[0])
     plt.ylim(-max_y, max_y)
     ani = animation.FuncAnimation(fig, animate, init_func=init, interval=frameinterval, blit=False, save_count=len(t_space))
-    #ani.save("wave.avi")
+    #ani.save("wave_smooth.avi")
     ani.save() # This throws an error because no filename, but the animation will not play without this
-#    
-#    #2D static output
+    
+    #2D static output
 #    for i in range(len(u)):
 #        plt.plot(u[i])
 #        
 #    plt.show()
     
-    #3D static output
+#    #3D static output
 #    x = range(len(x_space));
 #    y = range(len(t_space));
 #    X, Y = np.meshgrid(x, y);
